@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.yangRR.maven</groupId>
+    <artifactId>maven_web</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <!-- 新增一列打包方式packaging -->
+    <packaging>war</packaging>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.yangRR.maven</groupId>
+            <artifactId>maven_java</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+
+    <repositories>
+        <repository>
+            <id>nexus-mine</id>   <!--与settings.xml中的id保持一致-->
+            <name>nexus-mine</name>
+            <url>http://localhost:8081/repository/maven-snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+
+
+    <build>
+
+        <!-- 默认的打包名称：artifactid+verson.打包方式 -->
+        <finalName>maven_web_1.0-SNAPSHOT</finalName>
+
+        <resources>
+            <resource>
+                <!--设置资源所在目录-->
+                <directory>src/main/java</directory>
+                <includes>
+                    <!--设置包含的资源类型-->
+                    <!--任意包下的任意以xml文件结尾的文件-->
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
+
+
+
+
+        <plugins>
+
+            <!-- jdk17 和 war包版本插件不匹配 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.2</version>
+            </plugin>
+
+            <!-- tomcat插件 -->
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <port>8090</port>
+                    <path>/</path>
+                    <uriEncoding>UTF-8</uriEncoding>
+                    <server>tomcat7</server>
+                </configuration>
+            </plugin>
+
+
+        </plugins>
+
+
+    </build>
+
+</project>
